@@ -1,0 +1,13 @@
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\obj\Debug\EmployeeDetailsTest.csprojResolveAssemblyReference.cache
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\EmployeeDetailsTest.dll
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\EmployeeDetailsTest.pdb
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\WPFwebApi.exe
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\Newtonsoft.Json.dll
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\WPFwebApi.pdb
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\bin\Debug\Newtonsoft.Json.xml
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\obj\Debug\EmployeeDetailsTest.dll
+C:\Users\veerecha\Desktop\C#\EmployeeDetailsTest\obj\Debug\EmployeeDetailsTest.pdb
