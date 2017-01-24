@@ -17,13 +17,13 @@ namespace StudentDetailsServiceLayer.Controllers
          
         }
 
-        public HttpResponseMessage GetAllEmployees()
+        public HttpResponseMessage GetAll()
         {
             List<DB_Employee> empList = employeeRepository.GetAll().ToList();
             return Request.CreateResponse<List<DB_Employee>>(HttpStatusCode.OK, empList);
         }
 
-        public HttpResponseMessage GetEmplopyee(int id)
+        public HttpResponseMessage Get(int id)
         {
             DB_Employee employee = employeeRepository.Get(id);
             if (employee == null)
@@ -38,7 +38,7 @@ namespace StudentDetailsServiceLayer.Controllers
         }
 
 
-        public HttpResponseMessage PostEmployee(DB_Employee employee)
+        public HttpResponseMessage Post(DB_Employee employee)
         {
             EmployeeDetailVerifier obj = new EmployeeDetailVerifier();
             if (obj.InsertEmployee(employee)==0)
@@ -50,7 +50,7 @@ namespace StudentDetailsServiceLayer.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        public HttpResponseMessage PutEmployee(DB_Employee employee)
+        public HttpResponseMessage Put(DB_Employee employee)
         {
             EmployeeDbDataContext connection = new EmployeeDbDataContext();
             DB_Employee obj = (from s in connection.DB_Employees where s.EmployeeId == employee.EmployeeId select s).FirstOrDefault();
@@ -71,7 +71,7 @@ namespace StudentDetailsServiceLayer.Controllers
         }
      
 
-        public HttpResponseMessage DeleteProduct(int id)
+        public HttpResponseMessage Delete(int id)
         {
             employeeRepository.Remove(id);
             return new HttpResponseMessage(HttpStatusCode.NoContent);
