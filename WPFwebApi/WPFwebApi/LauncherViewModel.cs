@@ -139,7 +139,7 @@ namespace WPFwebApi
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error" + e);
+                MessageBox.Show("Error occured on deletion");
             }
         }
 
