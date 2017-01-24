@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
 
         <DataGrid Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=EmployeeList,Mode=TwoWay}" IsEnabled="true"  AutoGenerateColumns="False"
-                  SelectedItem="{Binding Path= SelectedEmployee,Mode=TwoWay}"
+                  SelectedItem="{Binding Path= SelectedEmployee,Mode=TwoWay}" 
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="80"/>
@@ -45,7 +45,6 @@
             <Button x:Name="Update_Employee" Content="Update" HorizontalAlignment="Left" Command="{Binding Path=UpdateEmployeeBtn}" Margin="55,-40" VerticalAlignment="Top" Width="169" Height="47"/>
 
             <Button x:Name="Delete_Employee" Content="Delete" HorizontalAlignment="Left" Command="{Binding Path=DeleteEmployeeBtn}" Margin="55,40" VerticalAlignment="Top" Width="169" Height="47"/>
-            <Button x:Name="Cancel" Content="Exit" HorizontalAlignment="Left"  Margin="55,40" VerticalAlignment="Top" Width="169" Height="47" Click="Cancel_Click"/>
 
         </StackPanel>
     </Grid>

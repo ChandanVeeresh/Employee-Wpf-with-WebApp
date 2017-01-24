@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WPFwebApi;
+
 
 namespace StudentDetailsServiceLayer.Models
 {
     public class EmployeeRepository : IEmployeeRepository
     {
         private List<DB_Employee> employees;
-        EmployeeDbDataContext connection = new EmployeeDbDataContext();
+        EmployeeDbDataContext connection=new EmployeeDbDataContext();
         public EmployeeRepository()
-        {}
+        { 
+        }
 
         public IEnumerable<DB_Employee> GetAll()
         {
@@ -27,17 +28,18 @@ namespace StudentDetailsServiceLayer.Models
 
         public bool Add(DB_Employee employee)
         {
-            connection.DB_Employees.InsertOnSubmit(employee);
-            connection.SubmitChanges();
+            EmployeeDbDataContext con = new EmployeeDbDataContext();
+            con.DB_Employees.InsertOnSubmit(employee);
+            con.SubmitChanges();
             return true;
         }
 
         public void Remove(int id)
         {
             DB_Employee employee = (from s in connection.DB_Employees where s.EmployeeId == id select s).FirstOrDefault();
-            if (employee.Status == "Activated")
+            if (employee.Status =="Activated")
                 throw new Exception("Only deactivated Employees can be deleted");
-            connection.DB_Employees.DeleteOnSubmit((from s in connection.DB_Employees where s.EmployeeId == id select s).FirstOrDefault());
+            connection.DB_Employees.DeleteOnSubmit(employee);
             connection.SubmitChanges();
         }
 
@@ -45,7 +47,7 @@ namespace StudentDetailsServiceLayer.Models
         {
             if (employee == null)
             {
-                throw new ArgumentNullException("employee");
+                throw new ArgumentNullException("Unable to update the details of employee");
             }
             DB_Employee s = (from t in connection.DB_Employees
                      where t.EmployeeId== employee.EmployeeId
@@ -54,7 +56,6 @@ namespace StudentDetailsServiceLayer.Models
             s.LastName = employee.LastName;
             s.Status = employee.Status;
             s.Address = employee.Address;
-
             connection.SubmitChanges();
             return true;
         }

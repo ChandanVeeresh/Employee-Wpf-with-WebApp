@@ -5,13 +5,17 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using StudentDetailsServiceLayer.Models;
-using WPFwebApi;
 
 namespace StudentDetailsServiceLayer.Controllers
 {
     public class EmployeeController : ApiController
     {
         static readonly IEmployeeRepository employeeRepository = new EmployeeRepository();
+
+        public EmployeeController()
+        {
+         
+        }
 
         public HttpResponseMessage GetAllEmployees()
         {
@@ -36,28 +40,26 @@ namespace StudentDetailsServiceLayer.Controllers
 
         public HttpResponseMessage PostEmployee(DB_Employee employee)
         {
-            if (String.IsNullOrEmpty(employee.FirstName))
+            EmployeeDetailVerifier obj = new EmployeeDetailVerifier();
+            if (obj.InsertEmployee(employee)==0)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Please fill all the details");
 
             }
-            bool result = employeeRepository.Add(employee);
-            if (result)
-            {
-                var response = Request.CreateResponse<DB_Employee>(HttpStatusCode.Created, employee);
-                string uri = Url.Link("DefaultApi", new { id = employee.EmployeeId });
-                response.Headers.Location = new Uri(uri);
-                return response;
-            }
-            else
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "");
-            }
+           
+                return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         public HttpResponseMessage PutEmployee(DB_Employee employee)
         {
-           
+            EmployeeDbDataContext connection = new EmployeeDbDataContext();
+            DB_Employee obj = (from s in connection.DB_Employees where s.EmployeeId == employee.EmployeeId select s).FirstOrDefault();
+            employee.Email = obj.Email;
+            EmployeeDetailVerifier obj1 = new EmployeeDetailVerifier();
+
+            if (obj1.UpdateEmployee(employee)==0)
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to Update the Employee for the Given ID");
+
             if (!employeeRepository.Update(employee))
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to Update the Employee for the Given ID");
@@ -67,18 +69,7 @@ namespace StudentDetailsServiceLayer.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
         }
-        public HttpResponseMessage PutEmployee(int id,DB_Employee employee)
-        {
-            employee.EmployeeId = id;
-            if (!employeeRepository.Update(employee))
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Unable to Update the Employee for the Given ID");
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-        }
+     
 
         public HttpResponseMessage DeleteProduct(int id)
         {

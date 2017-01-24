@@ -16,9 +16,9 @@
 
         //Displays in a Table
         function WriteResponses(employees) {
-            var strResult = "<table class=\"table\"><thead class=\"thead-inverse\"><th>Employee ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Address</th></thead>";
+            var strResult = "<table class=\"table\"><thead class=\"thead-inverse\"><th>Employee ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Address</th><th>Status</th></thead>";
             $.each(employees, function (index, employee) {
-                strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.FirstName + "</td><td>" + employee.LastName + "</td><td>" + employee.Email + "</td><td>" + employee.Address + "</td></tr>";
+                strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.FirstName + "</td><td>" + employee.LastName + "</td><td>" + employee.Email + "</td><td>" + employee.Address + "</td><td>"+employee.Status +"</td></tr>";
             });
             strResult += "</table>";
             $("#divResult").html(strResult);
@@ -26,6 +26,7 @@
 
     });
 
+    //Get employee by ID
     function GetEmployee() {
         jQuery.support.cors = true;
         $.ajax({
@@ -41,25 +42,50 @@
         });
 
         function WriteResponse(employee) {
-            document.getElementById('FirstName').innerHTML = "<h4>" + employee.FirstName + "</h4>";
-            document.getElementById('LastName').innerHTML = "<h4>" + employee.LastName + "</h4>";
-
-            document.getElementById('EmployeeId').innerHTML = "<h4>" + employee.EmployeeId + "</h4>";
+            document.getElementById('FirstName').innerHTML = "<input name=\"Firstname\" id=\"updateEmployeeName\" value=" + employee.FirstName + " />";
+            document.getElementById('LastName').innerHTML = "<input name=\"Lastname\" id=\"updateEmployeeLastName\" value=" + employee.LastName + " />";
             document.getElementById('Email').innerHTML = "<h4>" + employee.Email + "</h4>";
-            document.getElementById('Address').innerHTML = "<h4>" + employee.Address + "</h4>";
+            document.getElementById('Address').innerHTML = "<input name=\"Address\" id=\"updateEmployeeAddress\" value=" + employee.Address + " />";
+            document.getElementById('Status').innerHTML = "<h4>" + employee.Status+ "</h4>";
+            document.getElementById('checkbox').innerHTML = "<input id=\"updateEmployeeStatus\" type=\"checkbox\" "+Checkbox(employee.Status) +" data-toggle=\"toggle\" />";
         }
     }
 
-    //Adds a Student to the List
+    //checkbox is checked or not
+    function Checkbox(test) {
+        if(test=='Activated')
+            return 'checked'
+        else
+            return 
+    }
+
+    //checkbox is checked or not while adding employee
+
+    function statuscheck() {
+        var check = document.getElementById('newEmployeeStatus').checked;
+        if(check)
+            return 'Activated'
+        else
+            return 'Deactivated'
+    }
+    function statuscheckupdate() {
+        var check = document.getElementById('updateEmployeeStatus').checked;
+        if (check)
+            return 'Activated'
+        else
+            return 'Deactivated'
+    }
+
+    //Post Employee
     function AddEmployee() {
         var employee = {
             FirstName: document.getElementById('newEmployeeName').value,
             LastName: document.getElementById('newEmployeeLastName').value,
             Email: document.getElementById('newEmployeeEmail').value,
             Address: document.getElementById('newEmployeeAddress').value,
-            Status:'Active'
+            Status: statuscheck()
         };
-
+        
         $.ajax({
             url: 'http://localhost:8088/api/employee/',
             type: 'POST',
@@ -70,23 +96,23 @@
                 GetAllEmployees();
             },
             error: function () {
-                alert('Employee not Added');
+                alert('Please fill all the fields');
             }
         });
     }
 
-    //Updates the student Details in the List
+//Put Employee
     function PutEmployee() {
         var employee = {
-            EmployeeId: document.getElementById('updateEmployeeId').value,
+            EmployeeId: document.getElementById('employeeId').value,
             FirstName: document.getElementById('updateEmployeeName').value,
             LastName: document.getElementById('updateEmployeeLastName').value,
-            Email: document.getElementById('updateEmployeeEmail').value,
-            Address: document.getElementById('updateEmployeeAddress').value
+            Address: document.getElementById('updateEmployeeAddress').value,
+            Status: statuscheckupdate()
         };
 
         $.ajax({
-            url: 'http://localhost:8088/api/employee/' + document.getElementById('newEmployeeId').value,
+            url: 'http://localhost:8088/api/employee/' + document.getElementById('employeeId').value,
             type: 'PUT',
             data: JSON.stringify(employee),
             contentType: "application/json;charset=utf-8",
@@ -97,6 +123,30 @@
             error: function () {
                 alert('Unable to Update for the Given ID');
             }
+        });
+    }
+
+    //Delete Employee
+    function DeleteEmployee() {
+        jQuery.support.cors = true;
+        var employee = {
+            EmployeeId: document.getElementById('employeeId').value
+        };
+        $.ajax({
+            url: 'http://localhost:8088/api/employee/' + document.getElementById('employeeId').value,
+           type: 'DELETE',
+           data: JSON.stringify(employee),
+           contentType: "application/json;charset=utf-8",
+           success: function (data) {
+               alert('Successfully deleted');
+               GetAllEmployees();
+
+           },
+           error: function () {
+               alert('Unable to Delete for the given Id');
+              
+           }
+
         });
     }
 
@@ -116,9 +166,9 @@
 
         //Displays in a Table
         function WriteResponses(employees) {
-            var strResult = "<table><th>Employee ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Address</th>";
+            var strResult = "<table class=\"table\"><th>Employee ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Address</th><th>Status</th>";
             $.each(employees, function (index, employee) {
-                strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.FirstName + "</td><td>" + employee.LastName + "</td><td>" + employee.Email + "</td><td>" + employee.Address + "</td></tr>";
+                strResult += "<tr><td>" + employee.EmployeeId + "</td><td> " + employee.FirstName + "</td><td>" + employee.LastName + "</td><td>" + employee.Email + "</td><td>" + employee.Address + "</td><td>"+employee.Status +"</td></tr>";
             });
             strResult += "</table>";
             $("#divResult").html(strResult);
@@ -127,38 +177,37 @@
 
 </script>
 <center>
-<h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';" >List of employees </h1>
+<h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';" >List of Employees </h1>
     </center>
 <div id="divResult"  style="margin-left: 15px"></div>
+<div>
+   <center> <h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';">Edit Employee Details</h1></center>
+</div>
+    <h3 style="margin-left:250px">Enter the employee ID:</h3>
+
 <center>
 <div>
-    <h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';">Get a employee </h1>
-</div>
-    </center>
-<div style="margin-left: 50px">
-    <h3>Enter the employee ID:</h3>
     <input id="employeeId" type="text" />
-    <button id="GetEmployee" class="btn btn-primary" onclick="GetEmployee()">Get Employee</button>
+    <button id="GetEmployee" class="btn btn-info" onclick="GetEmployee()">Get Employee</button>
+    <button style="margin-left:10px;" id="putEmployee" class="btn btn-primary" onclick="PutEmployee()">Update Employee</button>
+    <button style="margin-left:10px;" id="DeleteEmployee" class="btn btn-danger" onclick="DeleteEmployee()">Delete Employee</button>
+
 </div>
+</center>
+<center>
 <div style="margin-left: 60px">
-    <table>
+    <table class="table" style="width:800px">
         <tr>
             <td>
                 <h4>First Name</h4>
             </td>
-            <td><span id="FirstName"></span></td>
+            <td ><span id="FirstName"></span></td>
         </tr>
         <tr>
             <td>
                 <h4>Last Name</h4>
             </td>
-            <td><span id="LastName"></span></td>
-        </tr>
-        <tr>
-            <td>
-                <h4>ID</h4>
-            </td>
-            <td><span id="EmployeeId"></span></td>
+            <td><span id="LastName" ></span></td>
         </tr>
         <tr>
             <td>
@@ -172,74 +221,69 @@
             </td>
             <td><span id="Address"></span></td>
         </tr>
+        <tr>
+            <td>
+                <h4>Status</h4>
+            </td>
+            <td><span id="Status"></span></td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Activate</h4>
+            </td>
+            <td><span id="checkbox">
+                </span>
+</td>
+        </tr>
     </table>
 </div>
+</center>
+    
 <div>
+    <center>
     <table>
         <tr>
 
-<td><center>    
-    <h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';">Add Employee </h1>
-   </center>
-    <form style="margin-left:100px">
-        <div class="form-group">
-            <label for="name">First Name</label>
-            <input id="newEmployeeName" type="text" />
-        </div>
-        <div class="form-group">
-            <label for="name"> Last Name</label>
-            <input id="newEmployeeLastName" type="text" />
-        </div>
-       
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input id="newEmployeeEmail" type="text" />
-        </div>
-
-        <div class="form-group">
-            <label for="Address">Address:</label>
-            <input id="newEmployeeAddress" type="text" />
-
-        </div>
-        <button id="postEmployee" class="btn btn-primary" onclick="AddEmployee()">Add New Employee</button>
-    </form>
-            </td>
-            <td style="margin-left:50px">
+            <td>
                 <center>
-        <h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';">Update a Employee </h1>
-                    </center>
-        <form style="margin-left:50px">
+                    <h1 style="margin-top:20px;color:cadetblue;font-family:'Bookman Old Style';">Add Employee </h1>
+                </center>
 
-            <div class="form-group">
-                <label for="name">ID</label>
+                    <table class="table">
+                        <tr>
+                            <td>
+                        <label for="name">First Name</label>
+                                </td>
+                            <td>
+                        <input id="newEmployeeName" type="text" /></td>
+                    </tr>
+                        <tr><td>
+                        <label for="name"> Last Name</label></td>
+                        <td>
+                        <input id="newEmployeeLastName" type="text" /></td>
+                   </tr>
+                        <tr>
+                            <td>
+                        <label for="email">Email:</label></td><td>
+                        <input id="newEmployeeEmail" type="text" /></td>
+                   </tr>
+                        <tr><td>
+                        <label for="Address">Address:</label>
+                        </td><td><input id="newEmployeeAddress" type="text" />
+                            </td></tr>
+                        <tr>
+                            <td>
+                                <label for="Status">Activate:</label>
 
-                <input id="updateEmployeeId" type="number" />
-            </div>
-            <div class="form-group">
-                <label for="name">First Name</label>
-                
-                <input id="updateEmployeeName" type="text" />
-            </div>
-            <div class="form-group">
-                <label for="name"> Last Name</label>
-                <input id="updateEmployeeLastName" type="text" />
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input id="updateEmployeeEmail" type="text" />
-            </div>
-
-            <div class="form-group">
-                <label for="Address">Address:</label>
-                <input id="updateEmployeeAddress" type="text" />
-
-            </div>
-
-            <button id="putEmployee" class="btn btn-primary" onclick="PutEmployee()">Update Employee</button>
-        </form>
-    </td>
-            </tr>
-        </table>
-
+                            </td>
+                            <td>
+                                <input id="newEmployeeStatus" type="checkbox" checked data-toggle="toggle">
+                                </td>
+                            </tr>
+                    </table>
+                    <button id="postEmployee" class="btn btn-success" onclick="AddEmployee()">Add New Employee</button>
+            </td>
+        </tr>
+    </table>
+        </center>
 </div>

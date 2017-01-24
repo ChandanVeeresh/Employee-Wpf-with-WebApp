@@ -25,9 +25,6 @@ namespace WPFwebApi
             this.DataContext =new LauncherViewModel();
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            //DialogResult = true;
-        }
+       
     }
 }

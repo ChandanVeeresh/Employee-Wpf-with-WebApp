@@ -31,5 +31,5 @@ C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLay
 C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\obj\Debug\EmployeeDetailsWebApi.csprojResolveAssemblyReference.cache
 C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\obj\Debug\StudentDetailsServiceLayer.dll
 C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\obj\Debug\StudentDetailsServiceLayer.pdb
-C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\bin\WPFwebApi.exe
-C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\bin\WPFwebApi.pdb
+C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\bin\Castle.Core.dll
+C:\Users\veerecha\Desktop\C#\StudentDetailsServiceLayer\StudentDetailsServiceLayer\bin\Castle.Core.xml

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentDetailsServiceLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -74,8 +75,7 @@ namespace WPFwebApi
             HttpResponseMessage response = await client.GetAsync("/api/employee");
             response.EnsureSuccessStatusCode();
             var employees = await response.Content.ReadAsAsync<IEnumerable<DB_Employee>>();
-           EmployeeList=employees.ToList();
-
+            EmployeeList=employees.ToList();
         }
         private DB_Employee _selectedEmployee;
         public DB_Employee SelectedEmployee
@@ -127,9 +127,8 @@ namespace WPFwebApi
 
         public async void OnDeleteEmployeeBtn_Click()
         {
-
             try
-            {
+            {   
                 HttpResponseMessage response = await client.DeleteAsync("/api/employee/" + SelectedEmployee.EmployeeId);
                 response.EnsureSuccessStatusCode();
                 MessageBox.Show("Employee Successfully Deleted");
@@ -138,9 +137,9 @@ namespace WPFwebApi
                 var employees = await responses.Content.ReadAsAsync<IEnumerable<DB_Employee>>();
                 EmployeeList = employees.ToList();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageBox.Show("Employee Deletion Unsuccessful");
+                MessageBox.Show("Error" + e);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentDetailsServiceLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -101,7 +102,7 @@ namespace WPFwebApi
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Employee not Added " );
+                MessageBox.Show("Employee not Added", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
